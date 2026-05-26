@@ -1,10 +1,11 @@
 const { Router } = require('express');
 const Director = require('../models/Director');
+const verifyToken = require('../middlewares/verifyToken');
 
 const router = Router();
 
 // Crear
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const director = new Director(req.body);
     await director.save();
@@ -25,7 +26,7 @@ router.get('/', async (req, res) => {
 });
 
 // Actualizar
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   try {
     const director = await Director.findByIdAndUpdate(
       req.params.id,
@@ -39,7 +40,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Eliminar
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   try {
     await Director.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Director eliminado' });

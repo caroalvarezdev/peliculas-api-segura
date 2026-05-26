@@ -1,10 +1,11 @@
 const { Router } = require('express');
 const Genero = require('../models/Genero');
+const verifyToken = require('../middlewares/verifyToken');
 
 const router = Router();
 
 // Crear género
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const genero = new Genero(req.body);
     await genero.save();
@@ -25,7 +26,7 @@ router.get('/', async (req, res) => {
 });
 
 // Actualizar género
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   try {
     const generoActualizado = await Genero.findByIdAndUpdate(
       req.params.id,
@@ -39,7 +40,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Eliminar género
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   try {
     await Genero.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Género eliminado correctamente' });

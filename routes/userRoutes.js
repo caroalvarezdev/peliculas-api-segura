@@ -110,7 +110,7 @@ router.post('/login', async (req, res) => {
                 uid: usuario._id,
                 rol: usuario.rol
             },
-            'clave_secreta',
+            process.env.JWT_SECRET,
             {
                 expiresIn: '2h'
             }

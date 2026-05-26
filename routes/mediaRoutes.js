@@ -1,10 +1,11 @@
 const { Router } = require('express');
 const Media = require('../models/Media');
+const verifyToken = require('../middlewares/verifyToken');
 
 const router = Router();
 
 // Crear media
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const media = new Media(req.body);
     await media.save();
@@ -30,7 +31,7 @@ router.get('/', async (req, res) => {
 });
 
 // Actualizar
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   try {
     const media = await Media.findByIdAndUpdate(
       req.params.id,
@@ -44,7 +45,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Eliminar
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   try {
     await Media.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Media eliminada' });
