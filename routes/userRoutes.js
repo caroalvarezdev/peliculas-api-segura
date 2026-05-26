@@ -6,9 +6,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // Importar librería JWT que genera tokens
 
 
-// =========================
+
 // Creación de GET, ruta para Obtener Usuarios
-// =========================
+
 router.get('/', async (req, res) => {
 
     try {
@@ -30,9 +30,9 @@ router.get('/', async (req, res) => {
 });
 
 
-// =========================
+
 // Creación de POST, Ruta para Crear Usuario
-// =========================
+
 router.post('/', async (req, res) => {
 
     try {
@@ -68,9 +68,9 @@ router.post('/', async (req, res) => {
 });
 
 
-// =========================
+
 // Creación de POST, Ruta para hacer el Login
-// =========================
+
 router.post('/login', async (req, res) => {
 
     try {
