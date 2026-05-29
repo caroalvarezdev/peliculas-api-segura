@@ -4,12 +4,14 @@ const router = Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // Importar librería JWT que genera tokens
+const verifyToken = require('../middlewares/verifyToken');
+const verifyRole = require('../middlewares/verifyRole');
 
 
 
 // Creación de GET, ruta para Obtener Usuarios
 
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, verifyRole('administrador'), async (req, res) => {
 
     try {
 
@@ -33,7 +35,7 @@ router.get('/', async (req, res) => {
 
 // Creación de POST, Ruta para Crear Usuario
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, verifyRole('administrador'), async (req, res) => {
 
     try {
 

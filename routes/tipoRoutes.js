@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const Tipo = require('../models/Tipo');
 const verifyToken = require('../middlewares/verifyToken');
+const verifyRole = require('../middlewares/verifyRole');
 
 const router = Router();
 
 // Crear
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     const tipo = new Tipo(req.body);
     await tipo.save();
@@ -26,7 +27,7 @@ router.get('/', async (req, res) => {
 });
 
 // Actualizar
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     const tipo = await Tipo.findByIdAndUpdate(
       req.params.id,
@@ -40,7 +41,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 // Eliminar
-router.delete('/:id', verifyToken, async (req, res) => {
+router.delete('/:id', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     await Tipo.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Tipo eliminado' });

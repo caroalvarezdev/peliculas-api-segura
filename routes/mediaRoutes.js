@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const Media = require('../models/Media');
 const verifyToken = require('../middlewares/verifyToken');
+const verifyRole = require('../middlewares/verifyRole');
 
 const router = Router();
 
 // Crear media
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     const media = new Media(req.body);
     await media.save();
@@ -16,7 +17,7 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 // Obtener todas (con populate)
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, verifyRole('administrador', 'docente'), async (req, res) => {
   try {
     const medias = await Media.find()
       .populate('genero')
@@ -31,7 +32,7 @@ router.get('/', async (req, res) => {
 });
 
 // Actualizar
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     const media = await Media.findByIdAndUpdate(
       req.params.id,
@@ -45,7 +46,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 // Eliminar
-router.delete('/:id', verifyToken, async (req, res) => {
+router.delete('/:id', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     await Media.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Media eliminada' });
