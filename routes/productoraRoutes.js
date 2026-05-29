@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const Productora = require('../models/Productora');
 const verifyToken = require('../middlewares/verifyToken');
+const verifyRole = require('../middlewares/verifyRole');
 
 const router = Router();
 
 // Crear
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     const productora = new Productora(req.body);
     await productora.save();
@@ -26,7 +27,7 @@ router.get('/', async (req, res) => {
 });
 
 // Actualizar
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     const productora = await Productora.findByIdAndUpdate(
       req.params.id,
@@ -40,7 +41,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 // Eliminar
-router.delete('/:id', verifyToken, async (req, res) => {
+router.delete('/:id', verifyToken, verifyRole('administrador'), async (req, res) => {
   try {
     await Productora.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Productora eliminada' });
