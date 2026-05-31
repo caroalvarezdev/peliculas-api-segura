@@ -140,9 +140,9 @@ Las pruebas de autenticación y endpoints fueron realizadas utilizando Postman.
 # Autores
 
 - Carolina Álvarez
-- XXXXXXXX
-- XXXXXXXX
-- XXXXXXXX
+- Angela Alean
+- Victor Quiceno
+- Jhonathan Vergara
 
 ---
 
